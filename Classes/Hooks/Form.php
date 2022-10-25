@@ -20,7 +20,10 @@ class Form
 {
     const FIELD_ID = 'cr-field';
 
-    private LoggerInterface $logger;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
     public function __construct()
     {
@@ -74,7 +77,7 @@ class Form
         }
 
         $submittedResponse = base64_decode($requestArguments[self::FIELD_ID] ?? '');
-        if (!str_contains($submittedResponse, '|')) {
+        if (strpos($submittedResponse, '|') === false) {
             $this->logger->debug('CR response invalid. Submitted data', $requestArguments);
             return '';
         }
